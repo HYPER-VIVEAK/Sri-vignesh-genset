@@ -58,7 +58,7 @@ export const serviceAPI = {
   create: (data) => api.post('/service-requests', data),
   getAll: (filters = {}) => api.get('/service-requests', { params: filters }),
   getById: (id) => api.get(`/service-requests/${id}`),
-  getCustomerRequests: (customerId) => api.get(`/service-requests?customerId=${customerId}`),
+  getCustomerRequests: (customerId) => api.get('/service-requests', { params: { customerId } }),
   assignTechnician: (id, technicianId, scheduledDate) => api.patch(`/service-requests/${id}/assign`, { technicianId, scheduledDate }),
   updateStatus: (id, status) => api.patch(`/service-requests/${id}/status`, { status }),
   complete: (id, completionData) => api.patch(`/service-requests/${id}/complete`, completionData),
