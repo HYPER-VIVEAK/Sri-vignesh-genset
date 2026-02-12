@@ -1,25 +1,50 @@
 # Sri Vignesh Genset Management System
 
-A comprehensive full-stack application for managing generator sets (gensets) with sales, service requests, and customer management. Built with Node.js, Express, and MongoDB.
+A comprehensive full-stack application for managing generator sets (gensets) with sales, service requests, and customer management. Built with React, Node.js, Express, MongoDB, and Tailwind CSS.
 
 ## 🚀 Features
 
-- **Genset Management**: Complete CRUD operations with advanced filtering
-- **Customer Management**: Track individual and business customers
+- **Genset Management**: Complete CRUD operations with advanced filtering by brand, fuel type, capacity, phase, and condition
+- **Customer Management**: Track individual and business customers with complete profiles
 - **Sales Orders**: Create, track, and manage genset orders with automatic stock management
-- **Service Requests**: Handle maintenance, repairs, and warranty services
+- **Service Requests**: Handle maintenance, repairs, and warranty services with status tracking
+- **User Authentication**: Secure JWT-based authentication with role-based access control (Admin/User)
+- **Admin Dashboard**: Comprehensive analytics and statistics for sales, service, and inventory
 - **Analytics & Reports**: Sales reports, service metrics, and dashboard statistics
-- **Stock Management**: Low stock alerts and inventory tracking
-- Input validation and comprehensive error handling
-- RESTful API design with consistent response format
+- **Stock Management**: Low stock alerts and real-time inventory tracking
+- **Input Validation**: Comprehensive validation and error handling
+- **Responsive UI**: Mobile-friendly design with Tailwind CSS
+
+## 🛠️ Tech Stack
+
+**Frontend:**
+- React 18 with Hooks
+- React Router for navigation
+- Axios for API calls
+- Tailwind CSS for styling
+- Vite as build tool
+
+**Backend:**
+- Node.js with Express
+- MongoDB with Mongoose ODM
+- JWT for authentication
+- bcryptjs for password hashing
+- CORS enabled for cross-origin requests
+
+**DevOps:**
+- Docker & Docker Compose for containerization
+- MongoDB 6 database service
 
 ## 📋 Prerequisites
 
+- Docker & Docker Compose (recommended) OR
 - Node.js (v14 or higher)
-- MongoDB Atlas account or local MongoDB installation
-- npm or yarn package manager
+- MongoDB (local or Atlas)
+- npm package manager
 
-## ⚙️ Installation
+## ⚙️ Installation & Setup
+
+### Option 1: Using Docker (Recommended)
 
 1. **Clone the repository**
    ```bash
@@ -27,21 +52,49 @@ A comprehensive full-stack application for managing generator sets (gensets) wit
    cd Sri-vignesh-genset
    ```
 
-2. **Install backend dependencies**
+2. **Create backend environment file**
+   ```bash
+   cd backend
+   touch .env
+   ```
+   
+   Add the following to `.env`:
+   ```env
+   MONGODB_URI=mongodb://admin:password123@mongodb:27017/genset?authSource=admin
+   PORT=5000
+   JWT_SECRET=your_secret_key_here
+   ```
+
+3. **Start with Docker Compose**
+   ```bash
+   docker-compose up --build
+   ```
+   
+   Services will be available at:
+   - Frontend: http://localhost:5173
+   - Backend: http://localhost:5000
+   - MongoDB: localhost:27017
+
+### Option 2: Manual Installation
+
+#### Backend Setup
+
+1. **Navigate to backend directory**
    ```bash
    cd backend
    npm install
    ```
 
-3. **Configure environment variables**
+2. **Configure environment variables**
    
-   Create a `.env` file in the `backend` folder:
+   Create a `.env` file:
    ```env
-   MONGODB_URI=your_mongodb_connection_string
+   MONGODB_URI=mongodb://your_connection_string
    PORT=5000
+   JWT_SECRET=your_secret_key_here
    ```
 
-4. **Start the server**
+3. **Start the backend server**
    ```bash
    # Development mode with auto-reload
    npm run dev
@@ -49,6 +102,52 @@ A comprehensive full-stack application for managing generator sets (gensets) wit
    # Production mode
    npm start
    ```
+
+#### Frontend Setup
+
+1. **Navigate to frontend directory**
+   ```bash
+   cd frontend
+   npm install
+   ```
+
+2. **Start the development server**
+   ```bash
+   npm run dev
+   ```
+   
+   Access the application at http://localhost:5173
+
+## 📁 Project Structure
+
+```
+Sri-vignesh-genset/
+├── backend/
+│   ├── config/          # Database configuration
+│   ├── middleware/      # Authentication and other middleware
+│   ├── models/          # Mongoose schemas (Customer, Genset, SalesOrder, ServiceRequest)
+│   ├── routes/          # API endpoints
+│   ├── utils/           # Helpers, validation, seeding
+│   ├── app.js           # Express app setup
+│   ├── server.js        # Server entry point
+│   └── package.json
+│
+├── frontend/
+│   ├── src/
+│   │   ├── components/  # Reusable React components
+│   │   ├── pages/       # Page components (HomePage, LoginPage, AdminDashboard, etc.)
+│   │   ├── context/     # React Context (AuthContext, CartContext)
+│   │   ├── hooks/       # Custom React hooks
+│   │   ├── services/    # API service layer
+│   │   ├── utils/       # Helper utilities
+│   │   ├── App.jsx      # Main App component
+│   │   └── index.jsx    # React entry point
+│   ├── package.json
+│   ├── vite.config.js
+│   └── tailwind.config.js
+│
+├── docker-compose.yaml  # Docker services orchestration
+└── README.md
 
 ## 📚 API Documentation
 
@@ -178,6 +277,19 @@ http://localhost:5000
 **Priority**: Low, Medium, High, Critical  
 **Status**: Open, Assigned, In Progress, On Hold, Completed, Cancelled
 
+#### Authentication
+
+- **POST** `/api/auth/register` - Register new user
+- **POST** `/api/auth/login` - Login and receive JWT token
+- **GET** `/api/auth/profile` - Get logged-in user profile (requires authentication)
+
+#### Users
+
+- **GET** `/api/users` - Get all users (admin only)
+- **GET** `/api/users/:id` - Get user by ID (admin only)
+- **PUT** `/api/users/:id` - Update user (admin only)
+- **DELETE** `/api/users/:id` - Delete user (admin only)
+
 #### Reports & Analytics
 
 - **GET** `/api/reports/sales?startDate=2026-01-01&endDate=2026-12-31` - Sales report
@@ -186,35 +298,58 @@ http://localhost:5000
 - **GET** `/api/reports/service?startDate=2026-01-01&endDate=2026-12-31` - Service metrics
   - Returns: statusBreakdown, averageRating
 
-## 🗂️ Project Structure
+## 🌍 Environment Variables
 
-```
-backend/
-├── config/
-│   └── database.js          # MongoDB connection
-├── models/
-│   ├── Genset.js           # Genset schema
-│   ├── Customer.js         # Customer schema
-│   ├── SalesOrder.js       # Sales order schema
-│   └── ServiceRequest.js   # Service request schema
-├── routes/
-│   ├── gensetRoutes.js     # Genset API routes
-│   ├── orderRoutes.js      # Sales order routes
-│   └── serviceRoutes.js    # Service request routes
-├── utils/
-│   ├── validation.js       # Request validation middleware
-│   └── analytics.js        # Reports & analytics functions
-├── app.js                  # Express app configuration
-├── server.js               # Server entry point
-├── package.json
-└── .env                    # Environment variables
+Create a `.env` file in the `backend` directory:
+
+```env
+# MongoDB Configuration
+MONGODB_URI=mongodb://admin:password123@mongodb:27017/genset?authSource=admin
+
+# Server Configuration
+PORT=5000
+NODE_ENV=development
+
+# JWT Configuration
+JWT_SECRET=your_super_secret_jwt_key_change_this_in_production
+JWT_EXPIRE=7d
+
+# CORS Settings (if needed)
+CORS_ORIGIN=http://localhost:5173
 ```
 
-## 🛠️ Tech Stack
+## 🚀 Running the Application
 
-- **Backend**: Node.js, Express.js
-- **Database**: MongoDB with Mongoose ODM
-- **Other**: CORS, dotenv, nodemon
+### Development Mode
+
+**With Docker:**
+```bash
+docker-compose up --build
+```
+
+**Without Docker:**
+```bash
+# Terminal 1: Backend
+cd backend
+npm run dev
+
+# Terminal 2: Frontend
+cd frontend
+npm run dev
+```
+
+### Production Mode
+
+```bash
+cd backend
+npm start
+```
+
+### Verify Services
+
+- Frontend: http://localhost:5173
+- Backend API: http://localhost:5000
+- Health Check: http://localhost:5000/health
 
 ## 📝 Response Format
 
@@ -244,10 +379,47 @@ All API responses follow this consistent format:
 
 Use the included `api-tests.http` file with REST Client extension in VS Code, or import into Postman/Insomnia.
 
+## � Database Seeding
+
+To populate the database with sample data:
+
+```bash
+cd backend
+npm run seed
+```
+
+## 🤝 Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+2. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+3. Push to the branch (`git push origin feature/AmazingFeature`)
+4. Open a Pull Request
+
+### Security & Vulnerability Fixes
+
+We take security seriously! If you discover a vulnerability:
+
+1. **Do not** open a public GitHub issue
+2. Report security vulnerabilities privately by emailing the maintainers
+3. Include:
+   - Description of the vulnerability
+   - Steps to reproduce
+   - Potential impact
+   - Suggested fix (if available)
+4. Allow reasonable time for the team to address the issue before public disclosure
+
+Accepted security fixes will be:
+- Merged with high priority
+- Acknowledged in release notes
+- Credited to the contributor
+
+
 ## 📄 License
 
 ISC
 
 ## 👨‍💻 Author
 
-HYPER
+HYPER-VIVEAK
