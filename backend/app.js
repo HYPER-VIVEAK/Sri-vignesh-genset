@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 
+const authRoutes = require('./routes/authRoutes');
+const userRoutes = require('./routes/userRoutes');
 const gensetRoutes = require('./routes/gensetRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const serviceRoutes = require('./routes/serviceRoutes');
@@ -77,6 +79,8 @@ app.get('/api/reports/service', async (req, res) => {
 });
 
 // API routes
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
 app.use('/api/gensets', gensetRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/service-requests', serviceRoutes);

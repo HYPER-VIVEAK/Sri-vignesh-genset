@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import axios from 'axios';
 
 const AuthContext = createContext();
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -23,43 +25,40 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     try {
-      // Mock implementation - replace with real API call
-      const mockUser = {
-        _id: 'user-' + Date.now(),
+      const response = await axios.post(`${API_BASE_URL}/auth/login`, {
         email,
-        name: email.split('@')[0],
-        role: 'customer',
-      };
-      const mockToken = 'token-' + Date.now();
-
-      setUser(mockUser);
-      localStorage.setItem('user', JSON.stringify(mockUser));
-      localStorage.setItem('token', mockToken);
-
+        password
+      });
+      
+      const { token, user } = response.data;
+      setUser(user);
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(user));
+      
       return { success: true };
     } catch (error) {
-      return { success: false, error: error.message };
+      return { success: false, error: error.response?.data?.message || 'Login failed' };
     }
   };
 
-  const register = async (email, password, name) => {
+  const register = async (email, password, name, phone = '', company = '') => {
     try {
-      // Mock implementation - replace with real API call
-      const mockUser = {
-        _id: 'user-' + Date.now(),
+      const response = await axios.post(`${API_BASE_URL}/auth/register`, {
         email,
+        password,
         name,
-        role: 'customer',
-      };
-      const mockToken = 'token-' + Date.now();
-
-      setUser(mockUser);
-      localStorage.setItem('user', JSON.stringify(mockUser));
-      localStorage.setItem('token', mockToken);
-
+        phone,
+        company
+      });
+      
+      const { token, user } = response.data;
+      setUser(user);
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(user));
+      
       return { success: true };
     } catch (error) {
-      return { success: false, error: error.message };
+      return { success: false, error: error.response?.data?.message || 'Registration failed' };
     }
   };
 
