@@ -26,17 +26,43 @@ const GensetCard = ({ genset }) => {
   return (
     <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition overflow-hidden">
       {/* Image */}
-      <div className="w-full h-48 bg-gray-200 flex items-center justify-center overflow-hidden">
+      <div className="relative w-full h-48 bg-gray-200 flex items-center justify-center overflow-hidden">
         {genset.images?.[0] ? (
           <img
             src={genset.images[0]}
             alt={genset.model}
             className="w-full h-full object-cover"
+            onError={(e) => {
+              e.target.style.display = 'none';
+              e.target.parentElement.innerHTML = '<div class="text-gray-400 text-center"><div class="text-4xl">⚡</div><p class="text-sm">Image unavailable</p></div>';
+            }}
           />
         ) : (
           <div className="text-gray-400 text-center">
             <div className="text-4xl">⚡</div>
             <p className="text-sm">No image</p>
+          </div>
+        )}
+        {/* Condition Badge Overlay */}
+        <div className="absolute top-2 left-2">
+          <span
+            className={`px-2 py-1 rounded-full text-xs font-bold shadow-lg ${
+              genset.condition === 'New'
+                ? 'bg-green-500 text-white'
+                : genset.condition === 'Used'
+                ? 'bg-yellow-500 text-white'
+                : 'bg-blue-500 text-white'
+            }`}
+          >
+            {genset.condition?.toUpperCase()}
+          </span>
+        </div>
+        {/* Stock Badge Overlay */}
+        {genset.stock === 0 && (
+          <div className="absolute top-2 right-2">
+            <span className="px-2 py-1 rounded-full text-xs font-bold bg-red-600 text-white shadow-lg">
+              OUT OF STOCK
+            </span>
           </div>
         )}
       </div>

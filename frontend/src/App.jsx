@@ -14,6 +14,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import UserManagement from './pages/admin/UserManagement';
 import UserForm from './pages/admin/UserForm';
 import GensetManagement from './pages/admin/GensetManagement';
+import GensetForm from './pages/admin/GensetForm';
 import OrderManagement from './pages/admin/OrderManagement';
 import ServiceManagement from './pages/admin/ServiceManagement';
 import AdminAnalytics from './pages/admin/AdminAnalytics';
@@ -39,6 +40,8 @@ function App() {
                 <Route path="/admin/users" element={<ProtectedRoute component={UserManagement} requiredRole="admin" />} />
                 <Route path="/admin/users/create" element={<ProtectedRoute component={UserForm} requiredRole="admin" />} />
                 <Route path="/admin/users/:id" element={<ProtectedRoute component={UserForm} requiredRole="admin" />} />
+                <Route path="/admin/gensets/create" element={<ProtectedRoute component={GensetForm} requiredRole="admin" />} />
+                <Route path="/admin/gensets/:id" element={<ProtectedRoute component={GensetForm} requiredRole="admin" />} />
                 <Route path="/admin/gensets" element={<ProtectedRoute component={GensetManagement} requiredRole="admin" />} />
                 <Route path="/admin/orders" element={<ProtectedRoute component={OrderManagement} requiredRole="admin" />} />
                 <Route path="/admin/services" element={<ProtectedRoute component={ServiceManagement} requiredRole="admin" />} />
