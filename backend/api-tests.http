@@ -1,0 +1,232 @@
+# ============================================
+# Sri Vignesh Genset Management System - API Tests
+# ============================================
+
+@baseUrl = http://localhost:5000
+
+# ============================================
+# HEALTH & DASHBOARD
+# ============================================
+
+### Health Check
+GET {{baseUrl}}/health
+
+### Dashboard Statistics
+GET {{baseUrl}}/api/dashboard
+
+### Low Stock Alert
+GET {{baseUrl}}/api/low-stock?threshold=5
+
+# ============================================
+# GENSET MANAGEMENT
+# ============================================
+
+### Get All Gensets
+GET {{baseUrl}}/api/gensets
+
+### Get Gensets with Filters
+GET {{baseUrl}}/api/gensets?brand=Kirloskar&fuelType=Diesel&minCapacity=100&maxCapacity=1000
+
+### Get Single Genset (replace :id with actual ID)
+GET {{baseUrl}}/api/gensets/:id
+
+### Create New Genset
+POST {{baseUrl}}/api/gensets
+Content-Type: application/json
+
+{
+  "model": "DG-500",
+  "brand": "Kirloskar",
+  "capacity": 500,
+  "fuelType": "Diesel",
+  "phase": "Three Phase",
+  "price": 450000,
+  "condition": "New",
+  "stock": 10,
+  "specifications": {
+    "voltage": "415V",
+    "frequency": "50Hz",
+    "engineModel": "TA-2020",
+    "weight": 2500,
+    "dimensions": {
+      "length": 3000,
+      "width": 1200,
+      "height": 1800
+    }
+  },
+  "warrantyMonths": 12
+}
+
+### Update Genset (replace :id with actual ID)
+PUT {{baseUrl}}/api/gensets/:id
+Content-Type: application/json
+
+{
+  "model": "DG-500-Updated",
+  "price": 475000,
+  "stock": 8
+}
+
+### Deactivate Genset (replace :id with actual ID)
+PATCH {{baseUrl}}/api/gensets/:id/deactivate
+
+### Delete Genset (replace :id with actual ID)
+DELETE {{baseUrl}}/api/gensets/:id
+
+# ============================================
+# SALES ORDERS
+# ============================================
+
+### Create Sales Order
+POST {{baseUrl}}/api/orders
+Content-Type: application/json
+
+{
+  "customerId": "customer_id_here",
+  "items": [
+    {
+      "gensetId": "genset_id_here",
+      "quantity": 2,
+      "discount": 5000
+    }
+  ],
+  "deliveryAddress": {
+    "street": "123 Main Street",
+    "city": "Mumbai",
+    "state": "Maharashtra",
+    "zipCode": "400001",
+    "country": "India"
+  },
+  "paymentMethod": "Bank Transfer",
+  "shippingCost": 10000,
+  "deliveryDate": "2026-03-15",
+  "notes": "Urgent delivery"
+}
+
+### Get All Orders
+GET {{baseUrl}}/api/orders
+
+### Get Orders by Customer
+GET {{baseUrl}}/api/orders?customerId=customer_id_here
+
+### Get Orders by Status
+GET {{baseUrl}}/api/orders?status=Confirmed
+
+### Get Customer's Orders (replace :customerId)
+GET {{baseUrl}}/api/orders/customer/:customerId
+
+### Get Single Order (replace :id)
+GET {{baseUrl}}/api/orders/:id
+
+### Update Order Status (replace :id)
+PATCH {{baseUrl}}/api/orders/:id/status
+Content-Type: application/json
+
+{
+  "status": "Confirmed"
+}
+
+### Update Payment Status (replace :id)
+PATCH {{baseUrl}}/api/orders/:id/payment
+Content-Type: application/json
+
+{
+  "paymentStatus": "Completed"
+}
+
+### Cancel Order (replace :id)
+PATCH {{baseUrl}}/api/orders/:id/cancel
+
+# ============================================
+# SERVICE REQUESTS
+# ============================================
+
+### Create Service Request
+POST {{baseUrl}}/api/service-requests
+Content-Type: application/json
+
+{
+  "customerId": "customer_id_here",
+  "gensetId": "genset_id_here",
+  "serviceType": "Maintenance",
+  "priority": "High",
+  "description": "Annual maintenance checkup required for DG-500",
+  "serviceLocation": {
+    "street": "456 Industrial Avenue",
+    "city": "Chennai",
+    "state": "Tamil Nadu",
+    "zipCode": "600001"
+  },
+  "estimatedCost": 15000
+}
+
+### Get All Service Requests
+GET {{baseUrl}}/api/service-requests
+
+### Get Service Requests with Filters
+GET {{baseUrl}}/api/service-requests?status=Open&priority=High
+
+### Get Service Requests by Customer
+GET {{baseUrl}}/api/service-requests?customerId=customer_id_here
+
+### Get Single Service Request (replace :id)
+GET {{baseUrl}}/api/service-requests/:id
+
+### Assign Technician (replace :id)
+PATCH {{baseUrl}}/api/service-requests/:id/assign
+Content-Type: application/json
+
+{
+  "technicianId": "technician_id_here",
+  "scheduledDate": "2026-02-20T10:00:00Z"
+}
+
+### Update Service Request Status (replace :id)
+PATCH {{baseUrl}}/api/service-requests/:id/status
+Content-Type: application/json
+
+{
+  "status": "In Progress"
+}
+
+### Complete Service Request (replace :id)
+PATCH {{baseUrl}}/api/service-requests/:id/complete
+Content-Type: application/json
+
+{
+  "actualCost": 18000,
+  "partsUsed": [
+    {
+      "partName": "Oil Filter",
+      "quantity": 2,
+      "cost": 500
+    },
+    {
+      "partName": "Air Filter",
+      "quantity": 1,
+      "cost": 800
+    }
+  ],
+  "technicianNotes": "Replaced filters and performed full inspection. All systems working properly."
+}
+
+### Add Customer Feedback (replace :id)
+PATCH {{baseUrl}}/api/service-requests/:id/feedback
+Content-Type: application/json
+
+{
+  "rating": 5,
+  "comment": "Excellent service! Technician was professional and thorough."
+}
+
+# ============================================
+# REPORTS & ANALYTICS
+# ============================================
+
+### Sales Report
+GET {{baseUrl}}/api/reports/sales?startDate=2026-01-01&endDate=2026-12-31
+
+### Service Metrics
+GET {{baseUrl}}/api/reports/service?startDate=2026-01-01&endDate=2026-12-31
+
+###
