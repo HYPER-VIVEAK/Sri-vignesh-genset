@@ -8,8 +8,7 @@ const serviceRequestSchema = new mongoose.Schema({
   },
   ticketNumber: {
     type: String,
-    unique: true,
-    required: true
+    unique: true
   },
   gensetId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -67,12 +66,11 @@ const serviceRequestSchema = new mongoose.Schema({
 });
 
 // Auto-generate ticket number
-serviceRequestSchema.pre('save', async function(next) {
+serviceRequestSchema.pre('save', async function() {
   if (!this.ticketNumber) {
     const count = await mongoose.model('ServiceRequest').countDocuments();
     this.ticketNumber = `SR-${Date.now()}-${String(count + 1).padStart(4, '0')}`;
   }
-  next();
 });
 
 // Indexes (ticketNumber already indexed via unique: true)
