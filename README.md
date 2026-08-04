@@ -2,7 +2,7 @@
 
 A comprehensive full-stack application for managing generator sets (gensets) with sales, service requests, and customer management. Built with React, Node.js, Express, MongoDB, and Tailwind CSS.
 
-## 🚀 Features
+##  Features
 
 - **Genset Management**: Complete CRUD operations with advanced filtering by brand, fuel type, capacity, phase, and condition
 - **Customer Management**: Track individual and business customers with complete profiles
@@ -15,7 +15,7 @@ A comprehensive full-stack application for managing generator sets (gensets) wit
 - **Input Validation**: Comprehensive validation and error handling
 - **Responsive UI**: Mobile-friendly design with Tailwind CSS
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 **Frontend:**
 - React 18 with Hooks
@@ -35,14 +35,14 @@ A comprehensive full-stack application for managing generator sets (gensets) wit
 - Docker & Docker Compose for containerization
 - MongoDB 6 database service
 
-## 📋 Prerequisites
+## Prerequisites
 
 - Docker & Docker Compose (recommended) OR
 - Node.js (v14 or higher)
 - MongoDB (local or Atlas)
 - npm package manager
 
-## ⚙️ Installation & Setup
+##  Installation & Setup
 
 ### Option 1: Using Docker (Recommended)
 
@@ -118,7 +118,7 @@ A comprehensive full-stack application for managing generator sets (gensets) wit
    
    Access the application at http://localhost:5173
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 Sri-vignesh-genset/
@@ -149,7 +149,7 @@ Sri-vignesh-genset/
 ├── docker-compose.yaml  # Docker services orchestration
 └── README.md
 
-## 📚 API Documentation
+## API Documentation
 
 ### Base URL
 ```
@@ -298,7 +298,7 @@ http://localhost:5000
 - **GET** `/api/reports/service?startDate=2026-01-01&endDate=2026-12-31` - Service metrics
   - Returns: statusBreakdown, averageRating
 
-## 🌍 Environment Variables
+## Environment Variables
 
 Create a `.env` file in the `backend` directory:
 
@@ -318,7 +318,7 @@ JWT_EXPIRE=7d
 CORS_ORIGIN=http://localhost:5173
 ```
 
-## 🚀 Running the Application
+##  Running the Application
 
 ### Development Mode
 
@@ -351,7 +351,7 @@ npm start
 - Backend API: http://localhost:5000
 - Health Check: http://localhost:5000/health
 
-## 📝 Response Format
+## Response Format
 
 All API responses follow this consistent format:
 
@@ -375,7 +375,7 @@ All API responses follow this consistent format:
 }
 ```
 
-## 🧪 Testing
+## Testing
 
 Use the included `api-tests.http` file with REST Client extension in VS Code, or import into Postman/Insomnia.
 
@@ -388,7 +388,7 @@ cd backend
 npm run seed
 ```
 
-## 🤝 Contributing
+##  Contributing
 
 Contributions are welcome! Please follow these steps:
 
@@ -416,9 +416,7 @@ Accepted security fixes will be:
 - Credited to the contributor
 
 
-## 📄 License
 
-ISC
 
 ## 👨‍💻 Author
 
